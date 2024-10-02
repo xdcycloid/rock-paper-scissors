@@ -41,7 +41,7 @@ function playRound(humanChoice,computerChoice)
     let result; 
     if (humanChoice == computerChoice) 
         {
-            console.log(`You both selected ${humanChoice}.`)
+            display(`You both selected ${humanChoice}.`)
         } 
     else if (humanChoice=="paper" && computerChoice=="scissors") 
         {
@@ -72,29 +72,75 @@ function playRound(humanChoice,computerChoice)
     switch(result){
         case 'win':
             humanScore =humanScore+1;
-            console.log(`You WON! Your ${humanChoice} beats ${computerChoice}.`);
+            display(`You WON! Your ${humanChoice} beats ${computerChoice}.`);
             break;
         case 'lose':
             computerScore =computerScore+1;
-            console.log(`You LOSE! ${computerChoice} beats your ${humanChoice}.`);
+            display(`You LOSE! ${computerChoice} beats your ${humanChoice}.`);
             break;
         default:
-            console.log("This is a TIE!");
+            display("This is a TIE!");
+    }
+    totalScore();
+    if(humanScore==5 || computerScore==5){
+        gameOver();
     }
 }
 
-function playGame()
-{
-    for(i=0;i<=5;i++)
-    {
-        let humanSelection = getHumanChoice();
-        let computerSelection = getComputerChoice();
+// function playGame()
+// {
+//     for(i=0;i<=5;i++)
+//     {
+//         let humanSelection = getHumanChoice();
+//         let computerSelection = getComputerChoice();
 
-        playRound(humanSelection, computerSelection);
+//         playRound(humanSelection, computerSelection);
 
-        console.log(`Computer: ${computerScore}, You: ${humanScore}`)
-    }
+//         console.log(`Computer: ${computerScore}, You: ${humanScore}`)
+//     }
+// }
+
+// playGame();
+
+// UI
+
+const btn1= document.querySelector(".btn1");
+const btn2= document.querySelector(".btn2");
+const btn3= document.querySelector(".btn3");
+
+btn1.addEventListener("click",handleClick);
+btn2.addEventListener("click",handleClick);
+btn3.addEventListener("click",handleClick);
+
+function handleClick(e){
+    let btnInput= e.target.dataset.choice;
+    let computerSelection = getComputerChoice();
+    playRound(btnInput,computerSelection);
 }
 
-playGame();
+const display1= document.querySelector(".display");
 
+function display(resultString){
+    
+    display1.textContent= resultString;
+
+}
+
+const score = document.querySelector(".score");
+
+function totalScore(){
+score.textContent= `Computer: ${computerScore}, You: ${humanScore}`;
+}
+
+function gameOver(){
+
+    if(humanScore=5){
+        display1.textContent="You Win!!";
+    }
+    else{
+        display1.textContent="You Lose!!";
+    }
+    btn1.disabled=true;
+    btn2.disabled=true;
+    btn3.disabled=true;
+}
